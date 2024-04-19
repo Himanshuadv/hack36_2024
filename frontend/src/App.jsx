@@ -1,13 +1,24 @@
 import { useState } from 'react'
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomePage from './Pages/Home'
 
 function App() {
   
 
   return (
-   <div className='text-center font-semibold text-2xl bg-nav'>
-    Hello world
-   </div>
+   <BrowserRouter>
+    <Routes>
+    <Route
+            path="/home"
+            element={
+            
+                <HomePage />
+              
+            }
+          />
+    </Routes>
+
+   </BrowserRouter>
   )
 }
 

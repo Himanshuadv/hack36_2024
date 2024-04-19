@@ -9,7 +9,7 @@ export default {
       colors:{
         'nav':'#00ADB5',
         'post':'#EEEEEE',
-        'side':'#393E46',
+        'side':'#9DB2BF',
         'font_c':'#222831',
       }
     },
