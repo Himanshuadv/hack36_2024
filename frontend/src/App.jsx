@@ -1,13 +1,22 @@
 import { useState } from 'react'
-import Nav from './components/Nav'
-import Post from './components/Post'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomePage from './Pages/Home'
 
 function App() {
   return (
-    <>
-      {/* <Nav /> */}
-      <Post />
-    </>
+   <BrowserRouter>
+    <Routes>
+    <Route
+            path="/home"
+            element={
+            
+                <HomePage />
+              
+            }
+          />
+    </Routes>
+
+   </BrowserRouter>
   )
 }
 
