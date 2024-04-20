@@ -25,9 +25,10 @@ const postSchema = new Schema({
       user: { type: Schema.Types.ObjectId, ref: 'User' }
     }
   ],
-  tag: {
-    type: String
-  },
+  tag: [{
+    type: String,
+  }],
+  
   timestamp: {
     type: Date,
     default: Date.now
@@ -35,7 +36,8 @@ const postSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: [true,"please entered the email login again"]
+
   }
 });
 

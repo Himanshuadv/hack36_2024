@@ -4,6 +4,18 @@ const router = express.Router();
 
 router.post("/signup", authController.signUp);
 router.post("/login", authController.login);
-router.post("/logout",authController.protect,authController.logout);
+router.get("/verify/:token", authController.verify);
+router.get("/verify/:token", authController.verify);
+router.post("/post",authController.protect,authController.post);
+
+
+
+// here is our entire post route and its logic
+
+//get all post 
+
+//post the post
+
+router.post("/user/post")
 
 module.exports = router;

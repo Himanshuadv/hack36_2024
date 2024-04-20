@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+  isVerified:{
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: String
 });
 
 // / creating the encryption of the password

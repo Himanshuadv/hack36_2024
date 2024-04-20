@@ -37,8 +37,10 @@ function SignIn({ isLog, setIsLog, setName }) {
           autoClose: 5000,
         });
         const name = response.data.data.user.name;
+        const id = response?.data.data.user._id
         console.log(response.data.data.user.name);
         localStorage.setItem("name", name);
+        localStorage.setItem("id",  id);
         navigate("/home");
       })
       .catch((error) => {

@@ -30,7 +30,7 @@ function Nav() {
 
                 </div>
                 <div className='flex items-center w-1/6 '>
-                <Dropdown options={options} value={selection} onChange={handleCommity} name='commity' className='bg-nav'/> 
+
                 </div>
 
                 <div className='flex items-center mx-5'>

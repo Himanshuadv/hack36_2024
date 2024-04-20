@@ -84,13 +84,21 @@ function Singlepost() {
                 <img className='h-12 w-12 mx-2 border-gray-600 bg-red-400' src={user} alt="logo" />
                     <div className='flex flex-col'>
                         <p>Name</p>
-                        <p>Caption</p>
                     </div>
                 </div>
             </div>
             <hr />
-            <div className='flex w-full justify-center py-2 px-5'>
+            <div className='flex flex-col w-full justify-center py-2 px-5'>
                 <p className='font-normal'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi temporibus in quibusdam voluptatum veritatis molestiae, laboriosam fugiat nisi vitae.</p>
+               <div className='w-1/3'>
+                <ul className='flex flex-row justify-between text-gray-500 text-sm p-1.5'>
+                        <li className='bg-white shadow-sm rounded-md shadow-gray-500 px-1'>Garba</li>
+                        <li className='bg-white shadow-sm rounded-md shadow-gray-500 px-1'>Garba</li>
+                        <li className='bg-white shadow-sm rounded-md shadow-gray-500 px-1'>Garba</li>
+                        <li className='bg-white shadow-sm rounded-md shadow-gray-500 px-1'>Garba</li>
+                    </ul>
+
+               </div>
             </div>
             <hr />
             <div className='flex justify-between py-1 my-1 px-5 items-center w-9/12'>

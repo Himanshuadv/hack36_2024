@@ -2,6 +2,8 @@ import React,{useState} from 'react'
 import SideBar from '../components/SideBar';
 import PostPage from './PostPage';
 import Nav from '../components/Nav';
+import { IoChatbubbleEllipses } from "react-icons/io5";
+
 
 function Home() {
     const [isloading,setIsLoading] = useState(false)
@@ -22,9 +24,10 @@ function Home() {
                 {/* content of side bar */}
                 <SideBar/>
               </div>
-              <div className="lg:w-3/4 h-full my-6  pl-0 lg:pl-4 overflow-auto bg-post shadow-2xl  shadow-slate-800">
-                     
+              <div className="lg:w-3/4 h-full my-6  pl-0 lg:pl-4 overflow-auto bg-post shadow-2xl  shadow-slate-800 relative">
+                    
                     <PostPage />
+                    
                   
                   
                        
