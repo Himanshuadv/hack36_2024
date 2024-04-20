@@ -1,2 +1,5 @@
 backend/node_modules
 .DS_Store
+frontend/flow.txt
+frontend/future.txt
+frontend/node_modules
