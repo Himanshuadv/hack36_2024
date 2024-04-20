@@ -20,8 +20,8 @@ function Post() {
         />
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-row w-1/6 justify-evenly">
-            <Image  height="32px" width="32px" color="#00ADB5" className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer'/>
-            <Podium   height="32px" width="32px" color="#00ADB5" className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer' />
+            <Image  height="28px" width="28px" color="#00ADB5" className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer'/>
+            <Podium   height="28px" width="28px" color="#00ADB5" className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer' />
           </div>
           <Button primary rounded outline>
             Post
