@@ -42,12 +42,11 @@ const createAndSendToken = (user, statusCode, res) => {
 
 exports.signUp = catchAsync(async (req, res, next) => {
   //   const newUser = await User.create(req.body); /// this line is flaw because if someone wants to enter as the admin then just he/she could assign themselves as the admin and can enter
-  const {name,email,password}
+  const {name,email,password} = 
   try{
     const verificationToken = crypto.randomBytes(20).toString('hex');
     const newUser = await User.create({name,email,password,verificationToken});
-  }
-  // console.log("error is not here");
+  }  // console.log("error is not here");
   createAndSendToken(newUser, 201, res);
 });
 
