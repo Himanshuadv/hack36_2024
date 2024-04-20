@@ -11,6 +11,8 @@ export default {
         'post':'#EEEEEE',
         'side':'#9DB2BF',
         'font_c':'#222831',
+        'btn':'#512da8',
+        'tog':'#512da8',
       }
     },
   },

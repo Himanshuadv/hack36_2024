@@ -15,7 +15,7 @@ function Button({
 }) {
   //  console.log(rest.className);
     const classes = twMerge(
-        className(rest.className, 'flex items-center px-3 py-1.5 border my-1 mx-1', {
+        className('flex items-center px-3 py-1.5 border my-1 mx-1', {
           'border-blue-500 bg-blue-500 text-white hover:bg-blue-600 ...': primary,
           'border-cyan-900 bg-cyan-700 text-white hover:bg-cyan-900 ...': secondary,
           'border-green-500 bg-green-500 text-white hover:bg-green-600 ...': success,
@@ -28,7 +28,7 @@ function Button({
           'text-green-500 hover:text-white ...': outline && success,
           'text-yellow-400 hover:text-white ...': outline && warnings,
           'text-red-500 hover:text-white ...': outline && danger
-        })
+        },rest.className)
       );
   return <button {...rest} className={classes}>{children}</button>;
 }

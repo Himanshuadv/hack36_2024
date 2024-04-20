@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from './pages/Home'
+import HomePage from './Pages/Home'
+import SigninPage from './Pages/SigninPage';
 
 function App() {
   return (
@@ -11,6 +12,14 @@ function App() {
             element={
             
                 <HomePage />
+              
+            }
+          />
+    <Route
+            path="/"
+            element={
+            
+                <SigninPage />
               
             }
           />

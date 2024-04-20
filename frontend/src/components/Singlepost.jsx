@@ -1,9 +1,10 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useState,useRef} from 'react'
 import { ThumbsUpSharp } from 'react-ionicons'
 import { ThumbsDownSharp } from 'react-ionicons'
 import { ChatbubbleEllipsesSharp } from 'react-ionicons'
 import user from '../assets/user.avif'
 import { PricetagsSharp } from 'react-ionicons'
+import Button from './Button'
 
 import logo from '../assets/hacker.png'
 function Singlepost() {
@@ -13,6 +14,29 @@ function Singlepost() {
     const [liked,setLiked] = useState(false)
     const [disliked,setDisliked] = useState(false)
     const [commentClicked,setCommentClicked] = useState(false)
+    const divEl = useRef();
+    const handleComments = ()=>{
+        setCommentClicked(!commentClicked)
+    }
+
+  useEffect(() => {
+    const handler = (event) => {
+      if (!divEl.current) {
+        return;
+      }
+
+      if (!divEl.current.contains(event.target)) {
+        setCommentClicked(false);
+      }
+    };
+
+    document.addEventListener('click', handler, true);
+
+    return () => {
+      document.removeEventListener('click', handler);
+    };
+  }, []);
+
 
 
 
@@ -47,15 +71,14 @@ function Singlepost() {
         }
     }
     const elements = [];
-    const handleComments = ()=>{
-        setCommentClicked(!commentClicked)
-    }
-    for (let i = 0; i < 6; i++) {
-        elements.push(<div key={i} className='my-2'> Here goes comments </div>);
+    
+    for (let i = 0; i < 8; i++) {
+        elements.push(<div key={i} className='my-2'> Here goes comments 
+        </div>);
       }
   return (
     <>
-        <div className='flex flex-col rounded-md border-b border-t shadow-md border-gray-400 w-2/3 my-4'>
+        <div className='flex flex-col rounded-md border-b border-t shadow-md border-nav w-2/3 my-4'>
             <div className='flex justify-start items-center my-2'>
                 <div className='flex'>
                 <img className='h-12 w-12 mx-2 border-gray-600 bg-red-400' src={user} alt="logo" />
@@ -84,10 +107,16 @@ function Singlepost() {
            <PricetagsSharp className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer ' />
             </div>
             </div>
-            {commentClicked && <div className='flex flex-col justify-between my-4 overflow-auto w-full max-h-56 px-5'>
+            {commentClicked && <div ref={divEl} className='flex flex-col justify-around my-4 overflow-auto w-full max-h-56 px-5 relative'>
+                <div className='flex justify-between sticky top-0 backdrop-blur-3xl mb-2'>
+                
+                <input type="text" className='w-2/3 border  focus:outline-none  px-2 text-base border-gray-400 rounded-md' placeholder='Add your comments'/>
+                <Button primary rounded className="p-0 text-sm" outline> comment </Button>
+                </div>
                 {
                     elements
                 }
+                
             </div>}
         </div>
     </>
