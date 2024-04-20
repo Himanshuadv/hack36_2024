@@ -13,22 +13,7 @@ function App() {
     <>
       <BrowserRouter>
     <Routes>
-    <Route
-            path="/home"
-            element={
-            
-                <HomePage />
-              
-            }
-          />
-    <Route
-            path="/landing"
-            element={
-            
-                <LandingPage />
-              
-            }
-          />
+    
     <Route
             path="/"
             element={
@@ -37,7 +22,16 @@ function App() {
               
             }
           />
+    <Route
+            path="/home"
+            element={
+            
+                <HomePage />
+              
+            }
+          />
     </Routes>
+
     <ToastContainer />
    </BrowserRouter>
    
