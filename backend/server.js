@@ -22,6 +22,9 @@ mongoose.connect('mongodb://localhost:27017/Sampleuser_1',{useNewUrlParser:true,
   console.log('mongodb disconnected');
 })
 
+
+  
+
 // const DB = process.env.DATABASE.replace(
 //   "<PASSWORD>",
 //   process.env.DATABASE_PASSWORD

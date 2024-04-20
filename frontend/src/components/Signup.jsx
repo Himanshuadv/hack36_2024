@@ -15,7 +15,7 @@ function validateEmail(email) {
   return emailRegex.test(email);
 }
 
-function Signup({ setLog, isLog }) {
+function Signup({ setIsLog, isLog }) {
   const input =
     "bg-form border border-gray-300 my-1 mx-2 px-3 py-3 text-base rounded-md w-full outline-none";
   const [name, setName] = useState("");
@@ -37,19 +37,25 @@ function Signup({ setLog, isLog }) {
       }else{
         setError(null);
       const data = { name, email, password };
-      console.log(data);
+    //   console.log(data);
       axios
         .post("http://localhost:3000/api/v1/users/signup", data,{withCredentials: true, credentials: 'include'})
         .then((response) => {
           // alert(response.data.name);
-          toast.success("Welcome to BookShala!", {
+          console.log(response);
+          toast.success("Verify Your email and then Login!", {
             theme: "dark",
             autoClose: 5000,
           });
           const name = response.data.data.user.name;
           console.log(response.data.data.user.name);
-        localStorage.setItem("name", name);
-          navigate("/home");
+          localStorage.setItem("name", name);
+          setIsLog(()=>(
+            !isLog
+          )
+            
+          )
+          
         })
         .catch((error) => {
           // Handle error

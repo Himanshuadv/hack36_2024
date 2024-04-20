@@ -1,10 +1,15 @@
 const { promisify } = require("util"); // builtin util module for promising... extracting promisify from the util
-const User = require("./../model/userModel");
+const User = require("./../models/userModel");
 const catchAsync = require("./../utils/catchAsync");
 const jwt = require("jsonwebtoken");
 const AppError = require("./../utils/appError");
 const crypto = require("crypto");
 const { env } = require("process");
+const nodemailer = require('nodemailer');
+
+
+const EMAIL = "python.user739@gmail.com"
+const PASSWORD = "cend hzew sxnn hcwq"
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -42,13 +47,53 @@ const createAndSendToken = (user, statusCode, res) => {
 
 exports.signUp = catchAsync(async (req, res, next) => {
   //   const newUser = await User.create(req.body); /// this line is flaw because if someone wants to enter as the admin then just he/she could assign themselves as the admin and can enter
-  const {name,email,password}
-  try{
+  const {name,email,password}=req.body;
     const verificationToken = crypto.randomBytes(20).toString('hex');
     const newUser = await User.create({name,email,password,verificationToken});
-  }
+    const encodedToken = encodeURIComponent(verificationToken);
+    const verificationLink = `http://localhost:3000/api/v1/users/verify/${encodedToken}`;
+    const transporter = nodemailer.createTransport({
+      service:'Gmail',
+      host:'smtp.gmail.com',
+      port:465,
+      auth:{
+        user:EMAIL,
+        pass:PASSWORD
+      }
+    });
+    const mailOption = {
+      from:EMAIL,
+      to:email,
+      subject:'Account Verification',
+      html:`Click <a href ="${verificationLink}">here</a> to verify your Account.`
+    };
+
+    await transporter.sendMail(mailOption,(error,info)=>{
+      if(error){
+        console.log(error);
+        res.status(500).json({success: false,message:'Error sending verification email'});
+      }else{
+        console.log('Verification email sent: '+ info.response);
+        createAndSendToken(newUser, 201, res);
+        // res.status(200).json({success:true,message:'Verification email sent successfully'});
+      }
+    })
+  
   // console.log("error is not here");
-  createAndSendToken(newUser, 201, res);
+  
+});
+
+exports.verify = catchAsync(async (req, res, next) => {
+  console.log("hello");
+  const {token} = req.params;
+  console.log(token);
+  const user = await User.findOne({verificationToken: token});
+  if (!user || user.isVerified) {
+    return res.status(404).json({ success: false, message: 'Invalid verification token.' });
+  }
+  user.isVerified = true;
+    await user.save();
+    res.status(200).send('Account verified successfully.');
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -63,7 +108,7 @@ exports.login = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email }).select("+password"); // if user is not there then it takes to much time and cant proceed further so i put correct statement in the if col
   console.log(user);
   //   const correct = await user.correctPassword(password, user.password);
-  if (!user || !(await user.correctPassword(password, user.password))) {
+  if (!user || !(await user.correctPassword(password, user.password)) || !user.isVerified) {
     return next(new AppError("Email id or Password is incorrect"), 401);
   }
 

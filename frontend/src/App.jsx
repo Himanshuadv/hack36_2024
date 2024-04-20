@@ -3,9 +3,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from './Pages/Home'
 import SigninPage from './Pages/SigninPage';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 function App() {
   return (
-   <BrowserRouter>
+    <>
+      <BrowserRouter>
     <Routes>
     <Route
             path="/home"
@@ -24,8 +29,11 @@ function App() {
             }
           />
     </Routes>
-
+    <ToastContainer />
    </BrowserRouter>
+   
+    </>
+   
   )
 }
 

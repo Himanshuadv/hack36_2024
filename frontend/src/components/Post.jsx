@@ -24,7 +24,7 @@ function Post({setPosts,posts}) {
           ]);
     }
   return (
-    <div className="flex flex-row  p-2 w-2/3 ">
+    <div className="flex flex-row  p-2 w-2/3 my-8 ">
       <img
         src={profile}
         alt="profile"
