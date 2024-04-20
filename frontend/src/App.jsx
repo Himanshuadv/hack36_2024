@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from './pages/Home'
+// import HomePage from './pages/Home'
+import LandingPage from './Pages/LandingPage';
 
 function App() {
   return (
@@ -10,7 +11,8 @@ function App() {
             path="/home"
             element={
             
-                <HomePage />
+                // <HomePage />
+                <LandingPage/>
               
             }
           />

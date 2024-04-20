@@ -28,7 +28,7 @@ function Button({
           'text-green-500 hover:text-white ...': outline && success,
           'text-yellow-400 hover:text-white ...': outline && warnings,
           'text-red-500 hover:text-white ...': outline && danger
-        })
+        },rest.className)
       );
   return <button {...rest} className={classes}>{children}</button>;
 }
