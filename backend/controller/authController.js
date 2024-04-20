@@ -6,6 +6,7 @@ const AppError = require("./../utils/appError");
 const crypto = require("crypto");
 const { env } = require("process");
 const nodemailer = require('nodemailer');
+const Post = require('./../models/PostModel');
 
 
 const EMAIL = "python.user739@gmail.com"
@@ -119,7 +120,7 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.logout = catchAsync(async (req, res, next) => {
   // in this we create a new cookie which replace the old cookie with no user data so its look like the user is log out
   res.cookie("jwt", "loggedout", {
-    expires: new Date(Date.now() + 10 * 1000),
+    expires: new Date(Date.now() + 10 * 100),
     httpOnly: true,
   });
   res.status(200).json({ status: "success" });
@@ -175,3 +176,24 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+
+
+// ---------  posting logic -------------//
+
+exports.post = catchAsync(async(req,res,next)=>{
+  const {tag,content,id} = req.body;
+  if(tag.length==0){
+    tag=[general]
+  }
+
+  if(content.trim()=""){
+    return res.status(500).json({status:"failure",message: "Please some content some tags"})
+  }else {
+    //now we will save the post 
+  const newPost = await Post.create({tag,content,user:id});
+  
+  res.status(200).json({ status: "success" });
+  }
+  
+  
+})
