@@ -1,5 +1,7 @@
 import { useState } from 'react';
 // import { GoChevronDown, GoChevronLeft } from 'react-icons/go';
+import { IoIosArrowDropdown } from "react-icons/io";
+import { IoIosArrowDropup } from "react-icons/io";
 
 function Accordion({ items }) {
   const [expandedIndex, setExpandedIndex] = useState(-1);
@@ -19,25 +21,25 @@ function Accordion({ items }) {
 
     const icon = (
       <span className="text-xl">
-        {/* {isExpanded ? <GoChevronDown /> : <GoChevronLeft />} */}
+        {isExpanded ? <IoIosArrowDropup/> : <IoIosArrowDropdown />}
       </span>
     );
 
     return (
-      <div key={item.id}>
+      <div key={item.id} >
         <div
-          className="flex justify-center p-3 bg-gray-50 border-b items-center cursor-pointer"
+          className="flex  p-3 border-b  cursor-pointer justify-between "
           onClick={() => handleClick(index)}
         >
           {item.label}
           {icon}
         </div>
-        {isExpanded && <div className="border-b p-5">{item.content}</div>}
+        {isExpanded && <div className="border-b p-5 text-white">{item.content}</div>}
       </div>
     );
   });
 
-  return <div className="border-x border-t rounded">{renderedItems}</div>;
+  return <div className="border-x border-t rounded  text-white flex flex-col justify-center  item-center">{renderedItems}</div>;
 }
 
 export default Accordion;
