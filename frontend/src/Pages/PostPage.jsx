@@ -7,12 +7,15 @@ import axios from 'axios'
 function PostPage() {
     const [posts,setPosts] = useState([])
     useEffect(()=>{
-      console.log("hello");
-      axios.get('http://localhost:3000/api/v1/users/posts/all',{withCredentials: true, credentials: 'include'}).then((res)=>{
+      
+      const fetchData = async()=>{
+        axios.get('http://localhost:3000/api/v1/users/posts/all',{withCredentials: true, credentials: 'include'}).then((res)=>{
         setPosts(res.data)
       }).catch((err)=>{
         console.log(err);
       })
+      }
+      fetchData()
 
     },[])
   return (

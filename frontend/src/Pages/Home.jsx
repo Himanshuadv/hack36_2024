@@ -12,22 +12,22 @@ import { Navigate, useNavigate } from 'react-router-dom';
 function Home() {
    const navigate = useNavigate();
     const [isloading,setIsLoading] = useState(false)
-    useEffect(() => {
-      const handle = async () => {
-        try {
-          await axios.get(`http://localhost:3000/api/v1/users/check`,{withCredentials: true, credentials: 'include'})
-          .then((response)=>{
-            console.log(response);
-          })
-        } catch (error) {
-          console.log(error);
-          navigate('/');
-        }
-      };
+    // useEffect(() => {
+    //   const handle = async () => {
+    //     try {
+    //       await axios.get(`http://localhost:3000/api/v1/users/check`,{withCredentials: true, credentials: 'include'})
+    //       .then((response)=>{
+    //         console.log(response)
+    //       })
+    //     } catch (error) {
+    //       console.log(error);
+    //       navigate('/');
+    //     }
+    //   };
     
-      // Call the asynchronous function
-      handle();
-    }, []);
+    //   // Call the asynchronous function
+    //   handle();
+    // }, []);
     return (
         <div className="h-screen">
             <Nav/>

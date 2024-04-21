@@ -197,7 +197,11 @@ exports.restrictTo = (...roles) => {
 
 exports.post = catchAsync(async(req,res,next)=>{
   const {tag,content,id,name} = req.body;
+
   
+  
+  console.log("id" ,id);
+  console.log("name" ,name);
 
  
     //now we will save the post 

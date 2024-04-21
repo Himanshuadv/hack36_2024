@@ -44,13 +44,16 @@ function Post({ setPosts, posts }) {
       name: "hackthon",
     },
   ];
-  const handlePosts = () => {
+  const handlePosts = async() => {
     const id = localStorage.getItem("id");
+    const name = localStorage.getItem('name')
     const post = {
       content: content,
       tag: tag,
       id: id,
+      name:name,
     };
+    
     axios
       .post("http://localhost:3000/api/v1/users/post", post, {
         withCredentials: true,
