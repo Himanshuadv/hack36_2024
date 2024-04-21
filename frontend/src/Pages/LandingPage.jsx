@@ -18,7 +18,7 @@ function LandingPage() {
           </d>
           <div>
             <Link
-              to="/"
+              to="/signin"
               className={`inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded`}
             >
               Get Started
@@ -45,7 +45,7 @@ function LandingPage() {
           <div className="flex flex-row justify-center mt-10">
             <div className="mx-4">
               <Link
-                to="/"
+                to="/signin"
                 className={`inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded`}
               >
                 Get Started

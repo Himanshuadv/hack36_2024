@@ -8,8 +8,6 @@ import Dropdown from "./DropDown";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
-
 function Post({ setPosts, posts }) {
   const [content, setContents] = useState("");
   const [isTag, setIsTag] = useState(false);
@@ -44,16 +42,24 @@ function Post({ setPosts, posts }) {
       name: "hackthon",
     },
   ];
-  const handlePosts = async() => {
+  const handlePosts = async () => {
     const id = localStorage.getItem("id");
-    const name = localStorage.getItem('name')
+    const name = localStorage.getItem("name");
     const post = {
       content: content,
       tag: tag,
       id: id,
-      name:name,
+      name: name,
     };
-    
+    await axios
+      .post("http://127.0.0.1:8000/", { content })
+      .then((res) => {
+        const i = res.prediction;
+        console.log(i);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     axios
       .post("http://localhost:3000/api/v1/users/post", post, {
         withCredentials: true,
@@ -75,14 +81,13 @@ function Post({ setPosts, posts }) {
   const handleTag = (name) => {
     const uniqueTags = new Set([...tag, name]);
     setTag([...uniqueTags]);
-  
+
     setIsTag(false);
   };
   const handleRemoveTag = (indexToRemove) => {
     const updatedTags = tag.filter((_, index) => index !== indexToRemove);
     setTag(updatedTags);
   };
-  
 
   return (
     <div className="flex flex-row  p-2 w-2/3 my-8">
@@ -134,9 +139,8 @@ function Post({ setPosts, posts }) {
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
                 {tag.map((tagItem, index) => (
-                  <div  key={index}>
+                  <div key={index}>
                     <span
-                     
                       className="bg-white shadow-sm rounded-md shadow-gray-500 px-1 text-sm m-1 cursor-pointer"
                       onClick={() => handleRemoveTag(index)}
                     >
