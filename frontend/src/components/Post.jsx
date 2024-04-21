@@ -46,10 +46,12 @@ function Post({setPosts,posts}) {
     ]
     const handlePosts = ()=>{
       const id = localStorage.getItem('id')
+      const name = localStorage.getItem('name')
       const post = {
         content:content,
         tag :tag,
-        id:id
+        id:id,
+        name:name
       }
       axios.post('http://localhost:3000/api/v1/users/post',post,{withCredentials: true, credentials: 'include'}).then((res)=>{
             //post is saved successfully that is reply from backend
