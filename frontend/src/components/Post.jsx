@@ -52,7 +52,7 @@ function Post({ setPosts, posts }) {
       name: name,
     };
     await axios
-      .post("http://127.0.0.1:8000/", { content })
+      .post("http://127.0.0.1:8000/", content)
       .then((res) => {
         const i = res.prediction;
         console.log(i);
