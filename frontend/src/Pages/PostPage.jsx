@@ -7,7 +7,7 @@ function PostPage() {
     const [posts,setPosts] = useState([])
     console.log(posts);
   return (
-    <div className='w-full mx-8 relative'><Post setPosts={setPosts} posts={posts}/>
+    <div className='w-auto mx-8 relative'><Post setPosts={setPosts} posts={posts}/>
      
     <Singlepost/>
     <Singlepost/>
