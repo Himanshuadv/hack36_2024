@@ -8,6 +8,8 @@ import Dropdown from "./DropDown";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+
+
 function Post({ setPosts, posts }) {
   const [content, setContents] = useState("");
   const [isTag, setIsTag] = useState(false);
@@ -129,9 +131,9 @@ function Post({ setPosts, posts }) {
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
                 {tag.map((tagItem, index) => (
-                  <div>
+                  <div  key={index}>
                     <span
-                      key={index}
+                     
                       className="bg-white shadow-sm rounded-md shadow-gray-500 px-1 text-sm m-1 cursor-pointer"
                       onClick={() => handleRemoveTag(index)}
                     >

@@ -10,25 +10,30 @@ const postSchema = new Schema({
     type: String,
     required: true
   },
-  likes: {
-    type: Number,
-    default: 0
-  },
-  dislikes: {
-    type: Number,
-    default: 0
-  },
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  dislikes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  
   comments: [
     {
       content: { type: String },
       timestamp: { type: Date, default: Date.now },
-      user: { type: Schema.Types.ObjectId, ref: 'User' }
+      user: { type: Schema.Types.ObjectId, ref: 'User' },
+      name:{type:String}
     }
   ],
   tag: [{
     type: String,
   }],
-  
+  username:{
+    type:String,
+    required:[true,'Authentication Failed.Please sign in again']
+  },
   timestamp: {
     type: Date,
     default: Date.now

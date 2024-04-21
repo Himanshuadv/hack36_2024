@@ -1,13 +1,33 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import SideBar from '../components/SideBar';
 import PostPage from './PostPage';
 import Nav from '../components/Nav';
 import { IoChatbubbleEllipses } from "react-icons/io5";
+import axios from 'axios';
+import { Navigate, useNavigate } from 'react-router-dom';
+
+
 
 
 function Home() {
+   const navigate = useNavigate();
     const [isloading,setIsLoading] = useState(false)
+    useEffect(() => {
+      const handle = async () => {
+        try {
+          await axios.get(`http://localhost:3000/api/v1/users/check`,{withCredentials: true, credentials: 'include'})
+          .then((response)=>{
+            console.log(response);
+          })
+        } catch (error) {
+          console.log(error);
+          navigate('/');
+        }
+      };
     
+      // Call the asynchronous function
+      handle();
+    }, []);
     return (
         <div className="h-screen">
             <Nav/>
