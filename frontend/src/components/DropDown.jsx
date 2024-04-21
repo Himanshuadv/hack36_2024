@@ -46,13 +46,14 @@ function Dropdown({ options, value, onChange,name }) {
   });
 
   return (
-    <div ref={divEl} className="w-full flex items-center justify-center  relative">
+    <div ref={divEl} className="w-full flex items-center  relative">
+      
       <Panel
-        className="flex justify-center items-center  cursor-pointer"
+        className="  cursor-pointer"
         onClick={handleClick}
       >
         {value?.label || name}
-        {/* <GoChevronDown className="text-lg" /> */}
+        
       </Panel>
       {isOpen && <Panel className="absolute top-[80%] z-50">{renderedOptions}</Panel>}
     </div>

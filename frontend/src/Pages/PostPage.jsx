@@ -19,7 +19,7 @@ function PostPage() {
 
     },[])
   return (
-    <div className='w-full mx-8 relative'><Post setPosts={setPosts} posts={posts}/>
+    <div className='w-auto mx-8 relative'><Post setPosts={setPosts} posts={posts}/>
      {posts?.map((post) => (
                 <Singlepost key={post._id} post={post} />
             ))}
