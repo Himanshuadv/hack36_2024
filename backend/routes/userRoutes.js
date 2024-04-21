@@ -7,6 +7,7 @@ router.post("/login", authController.login);
 router.get("/verify/:token", authController.verify);
 router.get("/verify/:token", authController.verify);
 router.post("/post",authController.protect,authController.post);
+router.get("/check",authController.check);
 
 
 
