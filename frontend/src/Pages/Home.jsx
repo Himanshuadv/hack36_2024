@@ -40,7 +40,7 @@ function Home() {
             </div>
           ) : (
             <div className="flex flex-col lg:flex-row h-screen ">
-              <div className="lg:w-1/4 h-full  lg:mb-0 border-x-1 border-gray-500  bg-side">
+              <div className="lg:w-1/4 h-full  lg:mb-0 border-x-1 border-gray-500  bg-side overflow-scroll">
                 {/* content of side bar */}
                 <SideBar/>
               </div>

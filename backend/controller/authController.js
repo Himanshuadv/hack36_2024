@@ -196,19 +196,154 @@ exports.restrictTo = (...roles) => {
 // ---------  posting logic -------------//
 
 exports.post = catchAsync(async(req,res,next)=>{
-  const {tag,content,id} = req.body;
-  if(tag.length==0){
-    tag=[general]
-  }
+  const {tag,content,id,name} = req.body;
+  
 
-  if(content.trim()=""){
-    return res.status(500).json({status:"failure",message: "Please some content some tags"})
-  }else {
+ 
     //now we will save the post 
-  const newPost = await Post.create({tag,content,user:id});
+  const newPost = await Post.create({tag,content,user:id,username:name});
   
   res.status(200).json({ status: "success" });
-  }
+  
   
   
 })
+
+// get all the posts 
+exports.get_post = catchAsync(async (req, res, next) => {
+  try {
+    const posts = await Post.find().sort({ timestamp: -1 });
+    res.json(posts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+//likes wala route
+exports.likes_route = catchAsync(async(req,res,next)=>{
+  const postId = req.params.postId;
+  const userId = req.body.userId; // Assuming userId is sent in the request body
+  
+  
+  try {
+    // Check if the user already liked the post
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    const userLiked = post.likes.includes(userId);
+
+    let updatedPost;
+    if (userLiked) {
+      // If the user already liked the post, remove the user from the likes array
+      updatedPost = await Post.findByIdAndUpdate(
+        postId,
+        { $pull: { likes: userId } },
+        { new: true }
+      );
+      console.log(updatedPost);
+    } else {
+      // If the user hasn't liked the post yet, add the user to the likes array
+     //if it is in disLike route then delete it from there first dislikes
+     const userDisliked = post.dislikes.includes(userId);
+     if(userDisliked){
+      updatedPost = await Post.findByIdAndUpdate(
+        postId,
+        { $pull: { dislikes: userId } },
+        { new: true }
+      );
+     }
+      updatedPost = await Post.findByIdAndUpdate(
+        postId,
+        { $push: { likes: userId } },
+        { new: true }
+      );
+    }
+
+    res.json(updatedPost);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+
+})
+exports.dislikes_route = catchAsync(async(req,res,next)=>{
+  const postId = req.params.postId;
+  const userId = req.body.userId; // Assuming userId is sent in the request body
+  
+  
+  try {
+    // Check if the user already liked the post
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    const userDisliked = post.dislikes.includes(userId);
+
+    let updatedPost;
+    if (userDisliked) {
+      // If the user already liked the post, remove the user from the likes array
+      updatedPost = await Post.findByIdAndUpdate(
+        postId,
+        { $pull: { dislikes: userId } },
+        { new: true }
+      );
+      console.log(updatedPost);
+    } else {
+      // If the user hasn't liked the post yet, add the user to the likes array
+     //if it is in disLike route then delete it from there first dislikes
+     const userLiked = post.likes.includes(userId);
+     if(userLiked){
+      updatedPost = await Post.findByIdAndUpdate(
+        postId,
+        { $pull: { likes: userId } },
+        { new: true }
+      );
+     }
+      updatedPost = await Post.findByIdAndUpdate(
+        postId,
+        { $push: { dislikes: userId } },
+        { new: true }
+      );
+    }
+
+    res.json(updatedPost);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+
+})
+exports.comments = catchAsync(async (req, res, next) => {
+  const postId = req.params.postId;
+  const { userId, content,name } = req.body; // Assuming userId and content are sent in the request body
+  
+  try {
+    // Check if the post exists
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Create comment data object
+    const commentData = {
+      content: content,
+      user: userId ,
+      name:name// Assuming you have the user ID of the commenter
+    };
+
+    // Push comment data into the comments array of the post
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { $push: { comments: commentData } },
+      { new: true }
+    );
+
+    res.json(updatedPost);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});

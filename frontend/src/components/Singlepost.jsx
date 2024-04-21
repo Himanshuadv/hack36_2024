@@ -5,19 +5,43 @@ import { ChatbubbleEllipsesSharp } from 'react-ionicons'
 import user from '../assets/user.avif'
 import { PricetagsSharp } from 'react-ionicons'
 import Button from './Button'
+import axios from 'axios'
+
+// likes and dislikes functionality  and comments fuctionality logic is in backed
 
 import logo from '../assets/hacker.png'
-function Singlepost() {
-    const [likes,setLikes] = useState(0)
-    const [dislikes,setDislikes] = useState(0)
+function Singlepost({post}) {
     const [comments,setComments] = useState('')
-    const [liked,setLiked] = useState(false)
+    const [liked,setIsLiked] = useState(false)
     const [disliked,setDisliked] = useState(false)
     const [commentClicked,setCommentClicked] = useState(false)
     const divEl = useRef();
+
+    const user_id = localStorage.getItem('id')
+    useEffect(() => {
+      if (post && post.likes && post.likes.includes(user_id)) {
+          setIsLiked(true);
+      }
+      if(post && post.dislikes && post.dislikes.includes(user_id)){
+        setDisliked(true)
+      }
+  }, [post, user_id]);
+
     const handleComments = ()=>{
         setCommentClicked(!commentClicked)
     }
+    const options = {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+      month: 'numeric',
+      day: 'numeric',
+      year: 'numeric'
+    };
+    
+    const currentTimeString = new Date(post.timestamp).toLocaleTimeString('en-US', options);
+
+
 
   useEffect(() => {
     const handler = (event) => {
@@ -41,41 +65,65 @@ function Singlepost() {
 
 
     const handleLikes = ()=>{
-        if(disliked){
-            setDisliked(false)
-            setDislikes(dislikes-1)
-            setLikes(likes+1)
-            setLiked(true)
-        }else if(liked){
-            setLikes(likes-1);
-            setLiked(false)
-        }else{
-            setLikes(likes+1)
-            setLiked(true)
-        }
-
+        //send user id 
+        const userId = localStorage.getItem('id')
+       
+        axios.put(`http://localhost:3000/api/v1/users/posts/${post?._id}/likes`, {userId}, { withCredentials: true, credentials: 'include' })
+        .then((res) => {
+          post = res.data
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      
         
     }
+    const UpdateComment = (e)=>{
+        e.preventDefault()
+       const userId = localStorage.getItem('id')
+       const name = localStorage.getItem('name')
+       console.log(comments);
+       axios.put(`http://localhost:3000/api/v1/users/posts/${post?._id}/comments`, {userId,content:comments,name}, { withCredentials: true, credentials: 'include' })
+       .then((res) => {
+         post = res.data
+       })
+       .catch((err) => {
+        console.log(err);
+      });
+    }
     const handleDislikes = ()=>{
-       if(liked){
-            setLiked(false)
-            setLikes(likes-1)
-            setDislikes(dislikes+1)
-            setDisliked(true)
-        }else if(disliked){
-            setDislikes(dislikes-1);
-            setDisliked(false)
-        }else{
-            setDislikes(likes+1)
-            setDisliked(true)
-        }
+       //route per post karo but iski
+       const userId = localStorage.getItem('id')
+
+       axios.put(`http://localhost:3000/api/v1/users/posts/${post?._id}/dislikes`, {userId}, { withCredentials: true, credentials: 'include' })
+       .then((res) => {
+         post = res.data
+       })
+       .catch((err) => {
+        console.log(err);
+      });
+       
     }
     const elements = [];
     
-    for (let i = 0; i < 8; i++) {
-        elements.push(<div key={i} className='my-2'> Here goes comments 
-        </div>);
-      }
+console.log(post?.comments);
+
+const sortedComments = [...(post?.comments || [])].sort((a, b) =>  a.timestamp- b.timestamp);
+
+// Then, iterate over the sorted comments array
+for (let i = 0; i < sortedComments.length; i++) {
+    const comment = sortedComments[i];
+    elements.push(
+        <div key={i} className='my-4'> 
+            <p>{comment?.name}: {comment?.content}</p>
+            <div className="flex justify-between w-1/6">
+                <ThumbsUpSharp/><span>0</span>
+                <ThumbsDownSharp/><span>0</span>
+            </div>
+        </div>
+    );
+}
+
   return (
     <>
         <div className='flex flex-col rounded-md border-b border-t shadow-md border-nav w-2/3 my-4'>
@@ -83,43 +131,56 @@ function Singlepost() {
                 <div className='flex'>
                 <img className='h-12 w-12 mx-2 border-gray-600 bg-red-400' src={user} alt="logo" />
                     <div className='flex flex-col'>
-                        <p>Name</p>
+                        <p>{post?.username}</p>
                     </div>
                 </div>
             </div>
             <hr />
             <div className='flex flex-col w-full justify-center py-2 px-5'>
-                <p className='font-normal'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi temporibus in quibusdam voluptatum veritatis molestiae, laboriosam fugiat nisi vitae.</p>
+                <p className='font-normal'>{post?.content}</p>
                <div className='w-1/3'>
                 <ul className='flex flex-row justify-between text-gray-500 text-sm p-1.5'>
-                        <li className='bg-white shadow-sm rounded-md shadow-gray-500 px-1'>Garba</li>
-                        <li className='bg-white shadow-sm rounded-md shadow-gray-500 px-1'>Garba</li>
-                        <li className='bg-white shadow-sm rounded-md shadow-gray-500 px-1'>Garba</li>
-                        <li className='bg-white shadow-sm rounded-md shadow-gray-500 px-1'>Garba</li>
+                    {post.tag.map((tag, index) => (
+                    <li key={index} className='bg-white shadow-sm rounded-md shadow-gray-500 px-1'>
+                        {tag}
+                    </li>
+                     ))}
                     </ul>
 
                </div>
             </div>
             <hr />
-            <div className='flex justify-between py-1 my-1 px-5 items-center w-9/12'>
+            <div className='flex justify-between py-1 my-1 px-5 items-center w-9/12 relative'>
             <div className='text-2xl font-bold relative'>
-            <ThumbsUpSharp className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer' onClick={handleLikes}/><span className='text-sm absolute top-1 -right-3'>{likes}</span>
+           {!liked ?<>
+            <ThumbsUpSharp className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer' onClick={handleLikes}/><span className='text-sm absolute top-1 -right-3'>{post?.likes?.length}</span>
+           </>:<> <ThumbsUpSharp color="#DD5746" className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer' onClick={handleLikes}/><span className='text-sm absolute top-1 -right-3'>{post?.likes?.length}</span></>}
             </div>
             <div className='text-2xl font-bold relative'>
-            <ThumbsDownSharp className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer ' onClick={handleDislikes}/><span className='text-sm absolute top-1 -right-3'>{dislikes}</span>
+            {!disliked ?<>
+              <ThumbsDownSharp className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer ' onClick={handleDislikes}/><span className='text-sm absolute top-1 -right-3'>{post?.dislikes?.length}</span>
+            </>:
+            <>
+            <ThumbsDownSharp color="#DD5746" className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer ' onClick={handleDislikes}/><span className='text-sm absolute top-1 -right-3'>{post?.dislikes?.length}</span>
+            </>
+
+            }
             </div>
             <div className='text-2xl font-bold relative'>
-            <ChatbubbleEllipsesSharp className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer ' onClick={handleComments}/><span className='text-sm absolute top-1 -right-3'>0</span>
+            <ChatbubbleEllipsesSharp className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer ' onClick={handleComments}/><span className='text-sm absolute top-1 -right-3'>{post?.comments?.length}</span>
             </div>
             <div className='text-2xl font-bold relative'>
            <PricetagsSharp className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer ' />
+            </div>
+            <div className='text-xs text-gray-400 text-end font-bold absolute bottom-2 -right-40'>
+                      {currentTimeString}
             </div>
             </div>
             {commentClicked && <div ref={divEl} className='flex flex-col justify-around my-4 overflow-auto w-full max-h-56 px-5 relative'>
                 <div className='flex justify-between sticky top-0 backdrop-blur-3xl mb-2'>
                 
-                <input type="text" className='w-2/3 border  focus:outline-none  px-2 text-base border-gray-400 rounded-md' placeholder='Add your comments'/>
-                <Button primary rounded className="p-0 text-sm" outline> comment </Button>
+                <input type="text" className='w-2/3 border  focus:outline-none  px-2 text-base border-gray-400 rounded-md' placeholder='Add your comments' onChange={(e)=>setComments(e.target.value)}/>
+                <Button primary rounded className="p-0.5 py-2 text-xs" outline onClick={UpdateComment}> comment </Button>
                 </div>
                 {
                     elements
