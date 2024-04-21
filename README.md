@@ -1,4 +1,9 @@
-<h1 align="center">Lite Lo</h1>
+<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;">
+    <a href="https://hack36.com"> <img src="https://i.postimg.cc/FFwvfkGk/built-at-hack36.png" height="24px"> </a>
+    <h1 align="center" style='font-size:50px'>Lite Lo</h1>
+</div>
+
+
 
 
 ## Introduction
@@ -23,7 +28,7 @@ Lite lo is an anonymous platform exclusively for college students, offering a sa
 ## Technology Stack
 1. Python
 2. Dialogflow
-3. Vite-React
+3. Vite-React-JS
 4. Mongodb
 5. Express JS
 6. Node JS
