@@ -44,7 +44,7 @@ function Signup({ setIsLog, isLog }) {
           // alert(response.data.name);
           console.log(response);
           toast.success("Verify Your email and then Login!", {
-            theme: "dark",
+            theme: "light",
             autoClose: 5000,
           });
           const name = response.data.data.user.name;

@@ -12,6 +12,8 @@ router.put("/posts/:postId/likes",authController.protect,authController.likes_ro
 router.put("/posts/:postId/dislikes",authController.protect,authController.dislikes_route);
 router.put("/posts/:postId/comments",authController.protect,authController.comments);
 router.get("/check",authController.check);
+router.post("/logout",authController.protect,authController.logout);
+
 
 
 

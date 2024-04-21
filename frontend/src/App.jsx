@@ -13,9 +13,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/home" element={<HomePage />} />
-          <Route path="/landing" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/chat" element={<ChatbotPage />} />
-          <Route path="/" element={<SigninPage />} />
+          <Route path="/signin" element={<SigninPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <ToastContainer />

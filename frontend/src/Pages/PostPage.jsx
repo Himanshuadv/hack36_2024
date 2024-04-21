@@ -10,6 +10,7 @@ function PostPage() {
       
       const fetchData = async()=>{
         axios.get('http://localhost:3000/api/v1/users/posts/all',{withCredentials: true, credentials: 'include'}).then((res)=>{
+        console.log(res.data);
         setPosts(res.data)
       }).catch((err)=>{
         console.log(err);
