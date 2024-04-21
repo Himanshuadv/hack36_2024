@@ -37,8 +37,11 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex-1 overflow-y-auto px-6 py-4">
+    <div className="flex flex-col absolute bottom-0 w-3/4 h-[92vh] ">
+      <div
+        className="flex-1 overflow-y-auto px-6 py-4"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
         <div className="flex flex-col space-y-4">
           {messages.map((message, index) => (
             <div
