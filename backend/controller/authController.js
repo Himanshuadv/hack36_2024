@@ -126,10 +126,25 @@ exports.logout = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: "success" });
 });
 
+exports.check = catchAsync(async (req, res, next) => {
+  let token=req.cookies.jwt;
+    if(token==undefined){
+      return res.status(500).send({message:'token is not valid'});
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if(!decoded){
+      return res.status(500).send({message:'token is not valid'});
+    }
+
+    res.status(200).send({message:'token is valid'});
+
+});
 /// creating protect middle ware for the protected routes
 
 exports.protect = catchAsync(async (req, res, next) => {
   let token;
+  console.log(req.cookies.jwt);
   /////// 1 get the token and checking it exist
   // we always send token in header name -- 'authorization' and the its value always start with -- 'Bearer' .. its just a common proceddure
   if (

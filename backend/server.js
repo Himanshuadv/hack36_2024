@@ -14,32 +14,32 @@ process.on("uncaughtException", (err) => {
 
 const app = require("./app");
 
-mongoose.connect('mongodb://localhost:27017/Sampleuser_1',{useNewUrlParser:true,useUnifiedTopology: true})
-.then(()=>{
-  console.log('mongodb connected sucessfully');
-})
-.catch(()=>{
-  console.log('mongodb disconnected');
-})
+// mongoose.connect('mongodb://localhost:27017/Sampleuser_1',{useNewUrlParser:true,useUnifiedTopology: true})
+// .then(()=>{
+//   console.log('mongodb connected sucessfully');
+// })
+// .catch(()=>{
+//   console.log('mongodb disconnected');
+// })
 
 
   
 
-// const DB = process.env.DATABASE.replace(
-//   "<PASSWORD>",
-//   process.env.DATABASE_PASSWORD
-// );
-// mongoose
-//   .connect(DB, {
-//     useNewUrlParser: true,
-//     // useCreateIndex: true,
-//     // useFindAndModify: false,
-//     useUnifiedTopology: true,
-//   })
-//   .then(() => {
-//     // console.log(con.connections);
-//     console.log("connection is stabliished");
-//   });
+const DB = process.env.DATABASE.replace(
+  "<PASSWORD>",
+  process.env.DATABASE_PASSWORD
+);
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    // useCreateIndex: true,
+    // useFindAndModify: false,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    // console.log(con.connections);
+    console.log("connection is stabliished");
+  });
 
 //created a serverr
 const port = process.env.PORT || 8000;

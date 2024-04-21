@@ -3,3 +3,7 @@ backend/node_modules
 frontend/flow.txt
 frontend/future.txt
 frontend/node_modules
+chatbot/node_modules
+chatbot/chatCredential.json
+chatbot/package-lock.json
+chatbot/myenv
