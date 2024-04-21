@@ -33,7 +33,7 @@ function SignIn({ isLog, setIsLog, setName }) {
       .then((response) => {
         // alert(response.data.name);
         // console.log(response.data.data);
-        toast.success("Welcome to BookShala!", {
+        toast.success("Welcome to Lite Lo!", {
           autoClose: 5000,
         });
         const name = response.data.data.user.name;

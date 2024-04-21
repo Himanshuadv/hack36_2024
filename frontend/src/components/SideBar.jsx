@@ -1,12 +1,28 @@
 import React, { useState } from "react";
 import Dropdown from "./DropDown";
 import Panel from "./Panel";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import {toast} from 'react-toastify'
 
 function SideBar() {
   const [selection, setSelection] = useState(null);
   const [eventSelection, setEventSelection] = useState(null);
   const [isCommityOpen, setIsCommityOpen] = useState(false);
   const [isEventOpen, setIsEventOpen] = useState(false);
+  const navigate = useNavigate()
+
+
+  const handleLogout = async()=>[
+    await axios.post('http://localhost:3000/api/v1/users/logout',{},{withCredentials: true, credentials: 'include'}).then((res)=>{
+      toast.success('Logged Out successfully!')
+      localStorage.removeItem('name')
+      localStorage.removeItem('id')
+      navigate('/')
+    }).catch((err)=>{
+      console.log(err);
+    })
+  ]
 
   const handleEvent = (option) => {
     setEventSelection(option);
@@ -84,7 +100,7 @@ function SideBar() {
         <div className="w-full">
         <Panel>User Policy</Panel>
         </div>
-        <div className="w-full">
+        <div className="w-full cursor-pointer" onClick={handleLogout}>
           <Panel>Logout</Panel>
         </div>
       </div>

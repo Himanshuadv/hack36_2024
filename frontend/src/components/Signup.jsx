@@ -44,12 +44,14 @@ function Signup({ setIsLog, isLog }) {
           // alert(response.data.name);
           console.log(response);
           toast.success("Verify Your email and then Login!", {
-            theme: "dark",
+            theme: "light",
             autoClose: 5000,
           });
           const name = response.data.data.user.name;
+          const id = response.data.data.user._id;
           console.log(response.data.data.user.name);
           localStorage.setItem("name", name);
+          localStorage.setItem("id", id);
           setIsLog(()=>(
             !isLog
           )
