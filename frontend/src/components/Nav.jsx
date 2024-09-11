@@ -45,10 +45,12 @@ function Nav() {
                     <div className='text-2xl mx-3'>
                         <NotificationsSharp className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer' height="24px" width="24px"/>
                     </div>
+                <Link to = 'profile'>
 
-                    <div className='text-2xl mx-3'>
+                <div className='text-2xl mx-3'>
                         <PersonSharp color="#222831" className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer' eight="24px" width="24px"/>
                     </div>
+                </Link>
                     
 
 

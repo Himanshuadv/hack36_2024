@@ -33,7 +33,15 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  verificationToken: String
+  verificationToken: String,
+  changedPasswordAt: Date,
+  passwordResetToken: String,
+  passwordResetExpire: Date,
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
+  },
 });
 
 // / creating the encryption of the password
@@ -53,9 +61,44 @@ userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
 ) {
+ 
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-const User = mongoose.model("User", userSchema);
+
+
+
+//-------------------------------------------------------------------- ADDED 01 June  -------------------------------------------------------------------
+
+
+userSchema.methods.changedPasswordAfter = function (JWTTimeStamp) {
+  if (this.changedPasswordAt) {
+    const changedTimeStamp = parseInt(
+      this.changedPasswordAt.getTime() / 1000,
+      10,
+    );
+    console.log(changedTimeStamp, JWTTimeStamp);
+    return JWTTimeStamp < changedTimeStamp;
+  }
+  // false mean password is not used
+  return false;
+};
+
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString('hex');
+
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  console.log({ resetToken }, this.passwordResetToken);
+
+  this.passwordResetExpire = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
+};
+const User = mongoose.model('User', userSchema);
+
 
 module.exports = User;

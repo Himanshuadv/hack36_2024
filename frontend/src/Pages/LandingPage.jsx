@@ -2,6 +2,7 @@ import React from "react";
 import back from "../assets/b.jpg";
 import Button from "../components/Button";
 import AccordionPage from "../components/AccordionPage";
+import {Link} from 'react-router-dom'
 
 function LandingPage() {
   return (
@@ -12,9 +13,12 @@ function LandingPage() {
         <nav className="space-x-4 flex flex-row">
             <div className="mt-2"><a href="/signin" className="text-black">FAQ</a></div>
             <div className="mt-2"><a href="/login" className="text-black">Feauters</a></div>
-            <div><Button primary outline className="rounded-md">
-            Get Started
-          </Button></div>
+             <Link to = 'signin'>
+             <Button primary outline className="rounded-md">
+                Get Started
+              </Button>
+
+             </Link>
           
           
           
@@ -38,9 +42,12 @@ function LandingPage() {
 
           <div className="flex flex-row justify-center mt-10">
             <div className="mx-4">
-              <Button primary outline className="rounded-md">
+             <Link to = 'signin'>
+             <Button primary outline className="rounded-md">
                 Get Started
               </Button>
+
+             </Link>
             </div>
           </div>
         </div>

@@ -1,4 +1,6 @@
 import React,{useEffect, useState,useRef} from 'react'
+import {useQueryClient,useMutation} from "@tanstack/react-query"
+import {updateLikes} from '../services/apiPost'
 import { ThumbsUpSharp } from 'react-ionicons'
 import { ThumbsDownSharp } from 'react-ionicons'
 import { ChatbubbleEllipsesSharp } from 'react-ionicons'
@@ -9,18 +11,37 @@ import axios from 'axios'
 
 // likes and dislikes functionality  and comments fuctionality logic is in backed
 
+
 import logo from '../assets/hacker.png'
-function Singlepost({post}) {
+function Singlepost({post,setFlag,flag}) {
+  const queryClient = useQueryClient()
+  const { isLoading: isLiking, mutate: updateLike}  = useMutation({
+    mutationFn: updateLikes,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['posts'] })
+    },
+  })
+
     const [comments,setComments] = useState('')
     const [liked,setIsLiked] = useState(false)
     const [disliked,setDisliked] = useState(false)
     const [commentClicked,setCommentClicked] = useState(false)
     const divEl = useRef();
+    
+    
 
     const user_id = localStorage.getItem('id')
     useEffect(() => {
+      console.log("he");
+      
       if (post && post.likes && post.likes.includes(user_id)) {
-          setIsLiked(true);
+          
+          if(!(post.likes.includes(user_id))){
+           setIsLiked(false)
+          }else{
+            setIsLiked(true);
+          }
       }
       if(post && post.dislikes && post.dislikes.includes(user_id)){
         setDisliked(true)
@@ -65,17 +86,7 @@ function Singlepost({post}) {
 
 
     const handleLikes = ()=>{
-        //send user id 
-        const userId = localStorage.getItem('id')
-       
-        axios.put(`http://localhost:3000/api/v1/users/posts/${post?._id}/likes`, {userId}, { withCredentials: true, credentials: 'include' })
-        .then((res) => {
-          post = res.data
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      
+      updateLike()
         
     }
     const UpdateComment = (e)=>{
@@ -106,7 +117,7 @@ function Singlepost({post}) {
     }
     const elements = [];
     
-console.log(post?.comments);
+// console.log(post?.comments);
 
 const sortedComments = [...(post?.comments || [])].sort((a, b) =>  a.timestamp- b.timestamp);
 
@@ -123,6 +134,9 @@ for (let i = 0; i < sortedComments.length; i++) {
         </div>
     );
 }
+  if(isLiking){
+    return <div>Liking</div>
+  }
 
   return (
     <>
@@ -153,8 +167,12 @@ for (let i = 0; i < sortedComments.length; i++) {
             <div className='flex justify-between py-1 my-1 px-5 items-center w-9/12 relative'>
             <div className='text-2xl font-bold relative'>
            {!liked ?<>
-            <ThumbsUpSharp className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer' onClick={handleLikes}/><span className='text-sm absolute top-1 -right-3'>{post?.likes?.length}</span>
-           </>:<> <ThumbsUpSharp color="#DD5746" className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer' onClick={handleLikes}/><span className='text-sm absolute top-1 -right-3'>{post?.likes?.length}</span></>}
+            <ThumbsUpSharp className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer' onClick={()=>{
+              updateLike(post?._id);
+            }}/><span className='text-sm absolute top-1 -right-3'>{post?.likes?.length}</span>
+           </>:<> <ThumbsUpSharp color="#DD5746" className='hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-pointer' onClick={()=>{
+             updateLike(post?._id);
+           }}/><span className='text-sm absolute top-1 -right-3'>{post?.likes?.length}</span></>}
             </div>
             <div className='text-2xl font-bold relative'>
             {!disliked ?<>

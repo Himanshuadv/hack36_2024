@@ -50,15 +50,15 @@ function SideBar() {
     <>
       <div className="flex flex-col justify-center text-center border-b border-gray-500 pt-8 pb-8">
         <div className="w-full">
-          <Panel>Home</Panel>
+          <Panel className="cursor-pointer">Home</Panel>
         </div>
         <div className="w-full">
-          <Panel>Trending</Panel>
+          <Panel className="cursor-pointer">Trending</Panel>
         </div>
       </div>
       <div className="flex flex-col justify-center text-center border-b border-gray-500 pt-5 pb-5">
         <div className="w-full">
-          <Panel onClick={() => handleCommity()}>{selection?.label || "Commity"}</Panel>
+          <Panel className="cursor-pointer" onClick={() => handleCommity()}>{selection?.label || "Commity"}</Panel>
           {isCommityOpen && (
             <div className="border-t  pt-2 pb-2">
               {commityOptions.map((option) => (
@@ -76,9 +76,9 @@ function SideBar() {
       </div>
       <div className="flex flex-col justify-center text-center border-b border-gray-500 pt-5 pb-5">
         <div className="w-full">
-          <Panel onClick={() => handleEvent()}>{eventSelection?.label || "Event"}</Panel>
+          <Panel className="cursor-pointer" onClick={() => handleEvent()}>{eventSelection?.label || "Event"}</Panel>
           {isEventOpen && (
-            <div className="border-t  pt-2 pb-2">
+            <div className="border-t pt-2 pb-2">
               {events.map((option) => (
                 <div
                   key={option.value}
@@ -95,13 +95,13 @@ function SideBar() {
       <div className="flex flex-col justify-center text-center border-b border-gray-500 pt-5 pb-5">
         
         <div className="w-full">
-        <Panel>About us</Panel>
+        <Panel className="cursor-pointer">About us</Panel>
         </div>
         <div className="w-full">
-        <Panel>User Policy</Panel>
+        <Panel className="cursor-pointer">User Policy</Panel>
         </div>
         <div className="w-full cursor-pointer" onClick={handleLogout}>
-          <Panel>Logout</Panel>
+          <Panel className="cursor-pointer">Logout</Panel>
         </div>
       </div>
     </>

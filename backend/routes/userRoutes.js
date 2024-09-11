@@ -13,6 +13,7 @@ router.put("/posts/:postId/dislikes",authController.protect,authController.disli
 router.put("/posts/:postId/comments",authController.protect,authController.comments);
 router.get("/check",authController.check);
 router.post("/logout",authController.protect,authController.logout);
+router.post("/updatePassword",authController.protect,authController.updatePassword);
 
 
 

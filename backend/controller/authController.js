@@ -229,6 +229,7 @@ exports.get_post = catchAsync(async (req, res, next) => {
 exports.likes_route = catchAsync(async(req,res,next)=>{
   const postId = req.params.postId;
   const userId = req.body.userId; // Assuming userId is sent in the request body
+  console.log("I am here");
   
   
   try {
@@ -351,3 +352,65 @@ exports.comments = catchAsync(async (req, res, next) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+// -----------------------------------------------------------------------------------
+/// creating reset password
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  //steps
+  // 1) get user based on token
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpire: { $gt: Date.now() },
+  });
+  // 2) if token is not expired and their is a user . set new password
+  if (!user) {
+    console.log(user);
+    return next(new AppError('user is not found or the token is expired', 400));
+  }
+  user.password = req.body.password;
+  user.confirmPassword = req.body.confirmPassword;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpire = undefined;
+  await user.save();
+  // 3) update changed password property for the user
+  // 4) log the user in , basically send JWT to client
+  // const token = signToken(user._id);
+  // res.status(200).json({
+  //   status: 'success',
+  //   token,
+  // });
+  createAndSendToken(user, 200, res);
+
+  // next();
+});
+
+exports.updatePassword = catchAsync(async (req, res, next) => {
+  //steps
+  // get user from the selection
+  const user = await User.findById(req.body.id).select('+password');
+ console.log("User",user);
+  // chack if the posted password is correct
+  if (!(await user.correctPassword(req.body.currentPassword, user.password))) {
+    return next(new AppError('you entered the wrong password', 401));
+  }
+  // if so update password
+  user.password = req.body.password;
+  user.confirmPassword = req.body.confirmPassword;
+  console.log("User Saved successfully");
+  await user.save();
+  
+
+  // log in the user send JWT
+  // const token = signToken(user._id);
+  // res.status(200).json({
+  //   status: 'success',
+  //   token,
+  // });
+  createAndSendToken(user, 200, res);
+});
+

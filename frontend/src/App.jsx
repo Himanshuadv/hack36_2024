@@ -6,13 +6,18 @@ import ChatbotPage from "./Pages/ChatbotPage";
 import ErrorPage from "./Pages/EroorPageNotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProfilePage from "./Pages/ProfilePage";
+import {QueryClient,QueryClientProvider} from "@tanstack/react-query"
+
+const queryClient = new QueryClient()
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+       <BrowserRouter>
         <Routes>
           <Route path="/home" element={<HomePage />} />
+          <Route path="/home/profile" element={<ProfilePage />} />
           <Route path="/" element={<LandingPage />} />
           <Route path="/chat" element={<ChatbotPage />} />
           <Route path="/signin" element={<SigninPage />} />
@@ -20,7 +25,7 @@ function App() {
         </Routes>
         <ToastContainer />
       </BrowserRouter>
-    </>
+    </QueryClientProvider>
   );
 }
 
